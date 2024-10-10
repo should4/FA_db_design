@@ -1,4 +1,5 @@
 -- CALL 存储过程设计
+USE fa_mini_app_test;
 
 -- 1. 针对提交X球队的首发名单业务：
 -- 传入参数：match_id,player_id,is_starter=1

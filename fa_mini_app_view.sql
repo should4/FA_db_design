@@ -1,3 +1,4 @@
+USE fa_mini_app_test;
 
 -- 视图一：user_view 用户视图
 -- 使用表与字段 ： user_info(user_id,username,password,phone_number,role,home_id,icon_url),referee_info(referee_id,user_id)

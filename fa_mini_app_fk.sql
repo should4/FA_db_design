@@ -1,6 +1,8 @@
+
 -- 关闭自动提交
 SET autocommit = 0;
-USE fa_mini_app;
+-- USE fa_mini_app;
+USE fa_mini_app_test;
 
 -- 2. 开启添加物理外键的事务
 START TRANSACTION;

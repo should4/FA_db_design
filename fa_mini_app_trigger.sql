@@ -1,3 +1,4 @@
+USE fa_mini_app_test;
 -- 关闭自动提交
 SET autocommit = 0;
 

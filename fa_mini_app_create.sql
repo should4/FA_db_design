@@ -1,3 +1,7 @@
+-- CREATE DATABASE fa_mini_app_test;
+-- 
+-- USE fa_mini_app_test;
+-- 
 CREATE DATABASE fa_mini_app;
 
 USE fa_mini_app;
@@ -24,6 +28,8 @@ CREATE TABLE `tournament_info` (
     `start_date` DATE NOT NULL COMMENT '开始日期',
     `end_date` DATE COMMENT '结束日期，可能为空',
 		`tournament_status` TINYINT DEFAULT 0 COMMENT '杯赛所处状态，0-代表未开始，1-代表正在进行，2-代表已结束',
+		`fixed_number` INT DEFAULT 11 NOT NULL COMMENT '每队允许上场的固定人数', -- 2024-10-10 为了实现首发表中固定人数的业务新增的字段
+		`max_substitutions` INT DEFAULT 5 NOT NULL COMMENT '每队最多换人次数', -- 2024-10-10 为了实现 控制每场比赛每队最多换人事件的次数业务
     `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间戳'
 );
 
@@ -101,10 +107,10 @@ CREATE TABLE `match_info` (
     `match_id` INT PRIMARY KEY AUTO_INCREMENT COMMENT '主键，自动递增',
     `match_type` TINYINT NOT NULL COMMENT '比赛类型,0-小组赛，1-四分之一决赛，2-半决赛，3-三四名决赛，4-决赛',
     `tournament_id` INT NOT NULL COMMENT '赛季ID',
-    `field` TINYINT NOT NULL COMMENT '场地ID,0-操场北半场,1-操场南半场',
-    `home_id` INT NOT NULL COMMENT '主队ID',
-    `away_id` INT NOT NULL COMMENT '客队ID',
-    `schedule` DATETIME NOT NULL COMMENT '预期比赛日期',
+    `field` TINYINT COMMENT '场地ID,0-操场北半场,1-操场南半场', -- 2024-10-10 修改为可以为空
+    `home_id` INT COMMENT '主队ID', -- 2024-10-10 修改为可以为空
+    `away_id` INT COMMENT '客队ID', -- 2024-10-10 修改为可以为空
+    `schedule` DATETIME COMMENT '预期比赛日期', -- 2024-10-10 修改为可以为空
     `referee_id` INT COMMENT '裁判ID',
     `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间戳'
 );
@@ -161,6 +167,8 @@ CREATE TABLE `group_standing` (
     `goals_against` INT NOT NULL DEFAULT 0 COMMENT '输球数',
     `goal_difference` INT NOT NULL DEFAULT 0 COMMENT '净胜球数',
     `points` INT NOT NULL DEFAULT 0 COMMENT '积分',
+		`team_red_cards` INT NOT NULL DEFAULT 0 COMMENT '积分', -- 2024-10-10 因为小组赛排名机制的需要添加每队的红牌数
+		`team_yellow_cards` INT NOT NULL DEFAULT 0 COMMENT '积分', -- 2024-10-10 因为小组赛排名机制的需要添加每队的黄牌数
     `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 );
 
